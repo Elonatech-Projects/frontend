@@ -124,7 +124,8 @@ export default function RegisterPage() {
             <input
               name={field}
               required={['name','phone','ministry','location'].includes(field)}
-              value={(formData as any)[field]}
+              value={typeof formData[field as keyof FormData] === 'string' ? formData[field as keyof FormData] as string : ''}
+
               onChange={handleChange}
               disabled={loading}
               className="w-full border border-gray-600 bg-black/30 text-white px-3 py-[8px] text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 placeholder:text-gray-400"

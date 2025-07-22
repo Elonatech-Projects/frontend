@@ -122,14 +122,16 @@ export default function RegisterPage() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
 
+    
       {/* ✅ Logo */}
-      <div className="mb-4">
-        <img
-          src="/logo.png"
-          alt="Gaanet Logo"
-          className="h-16 mx-auto"
-        />
-      </div>
+<div className="mb-4">
+  <img
+    src="/logo.png"
+    alt="Gaanet Logo"
+    className="h-16 mx-auto hidden"
+  />
+</div>
+
 
       {/* ✅ Banner */}
       <div className="w-full max-w-2xl mx-auto mb-6 text-center">

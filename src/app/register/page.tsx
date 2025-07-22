@@ -1,6 +1,7 @@
  'use client';
 
 import { useState } from 'react';
+import Head from 'next/head';
 
 type FormData = {
   name: string;
@@ -103,7 +104,34 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-purple-900  text-white py-6 px-4 flex flex-col items-center font-sans">
+    <div className="min-h-screen bg-gradient-to-b from-purple-900 text-white py-6 px-4 flex flex-col items-center font-sans">
+      {/* ✅ Head Metadata */}
+      <Head>
+        <title>Gaanet Event Registration</title>
+        <meta
+          name="description"
+          content="Register for the upcoming Gaanet weekend event. Join us for two days of ministry, worship, and impact!"
+        />
+        <meta property="og:title" content="Gaanet Event Registration" />
+        <meta
+          property="og:description"
+          content="Join us for a powerful weekend with Gaanet. Register today to secure your spot."
+        />
+        <meta property="og:image" content="/ganet.jpg" />
+        <meta property="og:type" content="website" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </Head>
+
+      {/* ✅ Logo */}
+      <div className="mb-4">
+        <img
+          src="/logo.png"
+          alt="Gaanet Logo"
+          className="h-16 mx-auto"
+        />
+      </div>
+
+      {/* ✅ Banner */}
       <div className="w-full max-w-2xl mx-auto mb-6 text-center">
         <img
           src="/ganet.jpg"
@@ -112,30 +140,50 @@ export default function RegisterPage() {
         />
       </div>
 
+      {/* ✅ Form */}
       <form
         onSubmit={handleSubmit}
         className="backdrop-blur-sm bg-white/5 border border-purple-800 w-full max-w-2xl p-6 sm:p-10 rounded-xl shadow-2xl text-white"
       >
-        <h2 className="text-2xl font-bold text-center mb-6 text-purple-400">Event Registration</h2>
+        <h2 className="text-2xl font-bold text-center mb-6 text-purple-400">
+          Event Registration
+        </h2>
 
-        {['name', 'phone', 'whatsapp', 'email', 'ministry', 'location'].map((field) => (
-          <div key={field} className="mb-4">
-            <label className="block text-sm font-medium mb-1 capitalize">{field} {['name','phone','ministry','location'].includes(field) ? '*' : ''}</label>
-            <input
-              name={field}
-              required={['name','phone','ministry','location'].includes(field)}
-              value={typeof formData[field as keyof FormData] === 'string' ? formData[field as keyof FormData] as string : ''}
+        {['name', 'phone', 'whatsapp', 'email', 'ministry', 'location'].map(
+          (field) => (
+            <div key={field} className="mb-4">
+              <label className="block text-sm font-medium mb-1 capitalize">
+                {field}{' '}
+                {['name', 'phone', 'ministry', 'location'].includes(field)
+                  ? '*'
+                  : ''}
+              </label>
+              <input
+                name={field}
+                required={['name', 'phone', 'ministry', 'location'].includes(
+                  field
+                )}
+                value={
+                  typeof formData[field as keyof FormData] === 'string'
+                    ? (formData[field as keyof FormData] as string)
+                    : ''
+                }
+                onChange={handleChange}
+                disabled={loading}
+                className="w-full border border-gray-600 bg-black/30 text-white px-3 py-[8px] text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 placeholder:text-gray-400"
+                placeholder={
+                  field.charAt(0).toUpperCase() + field.slice(1)
+                }
+              />
+            </div>
+          )
+        )}
 
-              onChange={handleChange}
-              disabled={loading}
-              className="w-full border border-gray-600 bg-black/30 text-white px-3 py-[8px] text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 placeholder:text-gray-400"
-              placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
-            />
-          </div>
-        ))}
-
+        {/* ✅ Days */}
         <div className="mb-4">
-          <label className="block text-sm font-medium mb-1">Number of Days to Attend *</label>
+          <label className="block text-sm font-medium mb-1">
+            Number of Days to Attend *
+          </label>
           <div className="flex gap-6 text-sm">
             {['Friday', 'Saturday'].map((day) => (
               <label key={day} className="inline-flex items-center">
@@ -155,9 +203,11 @@ export default function RegisterPage() {
           </div>
         </div>
 
+        {/* ✅ Consent */}
         <div className="mb-6">
           <label className="block text-sm font-medium mb-1 italic">
-            I understand that I can be contacted with the details provided for future Gaanet programs *
+            I understand that I can be contacted with the details provided for
+            future Gaanet programs *
           </label>
           <label className="inline-flex items-center text-sm">
             <input
@@ -173,6 +223,7 @@ export default function RegisterPage() {
           </label>
         </div>
 
+        {/* ✅ Submit */}
         <div className="flex justify-center">
           <button
             type="submit"
@@ -186,6 +237,7 @@ export default function RegisterPage() {
         </div>
       </form>
 
+      {/* ✅ Success Message */}
       {showSuccess && (
         <div className="fixed inset-0 flex items-center justify-center z-50">
           <div className="bg-green-600 text-white px-6 py-4 rounded shadow-md animate-bounce text-sm">

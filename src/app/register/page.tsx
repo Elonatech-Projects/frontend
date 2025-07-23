@@ -93,8 +93,8 @@ export default function RegisterPage() {
 
         setTimeout(() => {
           setShowSuccess(false);
-          window.location.href = '/';
-        }, 2500);
+          router.push('/');  // <---- Redirect here!
+        }, 1500);
       } else {
         alert('Failed to send message.');
       }

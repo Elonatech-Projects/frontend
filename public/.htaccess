@@ -1,8 +1,20 @@
  RewriteEngine On
 RewriteBase /
 
+# Serve existing files or directories directly
 RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^ - [L]
 
-RewriteRule ^ index.html [L]
+# If request does not match a file or directory,
+# redirect to the corresponding index.html inside the folder
+
+# Add trailing slash if missing for folder-like URLs
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([^/]+)$ /$1/ [R=301,L]
+
+# Serve index.html inside folders (for /register/ => /register/index.html)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.+)/$ /$1/index.html [L]

@@ -133,7 +133,7 @@ export default function RegisterPage() {
 </div>
 
 
-      {/* ✅ Banner */}
+      {/* Banner */}
       <div className="w-full max-w-2xl mx-auto mb-6 text-center">
         <img
           src="/ganet.jpg"
@@ -142,7 +142,7 @@ export default function RegisterPage() {
         />
       </div>
 
-      {/* ✅ Form */}
+      {/* Form */}
       <form
         onSubmit={handleSubmit}
         className="backdrop-blur-sm bg-white/5 border border-purple-800 w-full max-w-2xl p-6 sm:p-10 rounded-xl shadow-2xl text-white"

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Head from 'next/head';
+import { useRouter } from 'next/navigation'; // ✅ App Router
 
 type FormData = {
   name: string;
@@ -28,12 +29,12 @@ export default function RegisterPage() {
 
   const [loading, setLoading] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const router = useRouter(); // ✅ App Router
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    const target = e.target as HTMLInputElement;
-    const { name, value, checked } = target;
+    const { name, value, checked } = e.target as HTMLInputElement;
 
     if (name === 'days') {
       setFormData((prev) => ({
@@ -66,8 +67,9 @@ export default function RegisterPage() {
     }
 
     setLoading(true);
+
     try {
-      const res = await fetch(
+      const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/contact`,
         {
           method: 'POST',
@@ -76,7 +78,7 @@ export default function RegisterPage() {
         }
       );
 
-      if (res.ok) {
+      if (response.ok) {
         setShowSuccess(true);
         setFormData({
           name: '',
@@ -91,6 +93,7 @@ export default function RegisterPage() {
 
         setTimeout(() => {
           setShowSuccess(false);
+          window.location.href = '/';
         }, 2500);
       } else {
         alert('Failed to send message.');
@@ -105,33 +108,18 @@ export default function RegisterPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-purple-900 text-white py-6 px-4 flex flex-col items-center font-sans">
-      {/* ✅ Head Metadata */}
       <Head>
         <title>Gaanet Event Registration</title>
-        <meta
-          name="description"
-          content="Register for the upcoming Gaanet weekend event. Join us for two days of ministry, worship, and impact!"
-        />
+        <meta name="description" content="Register for the upcoming Gaanet event." />
         <meta property="og:title" content="Gaanet Event Registration" />
-        <meta
-          property="og:description"
-          content="Join us for a powerful weekend with Gaanet. Register today to secure your spot."
-        />
         <meta property="og:image" content="/ganet.jpg" />
-        <meta property="og:type" content="website" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
 
-    
-      {/* ✅ Logo */}
-<div className="mb-4">
-  <img
-    src="/logo.png"
-    alt="Gaanet Logo"
-    className="h-16 mx-auto hidden"
-  />
-</div>
-
+      {/* Logo */}
+      <div className="mb-4">
+        <img src="/logo.png" alt="Logo" className="h-16 mx-auto hidden" />
+      </div>
 
       {/* Banner */}
       <div className="w-full max-w-2xl mx-auto mb-6 text-center">
@@ -156,32 +144,22 @@ export default function RegisterPage() {
             <div key={field} className="mb-4">
               <label className="block text-sm font-medium mb-1 capitalize">
                 {field}{' '}
-                {['name', 'phone', 'ministry', 'location'].includes(field)
-                  ? '*'
-                  : ''}
+                {['name', 'phone', 'ministry', 'location'].includes(field) ? '*' : ''}
               </label>
               <input
                 name={field}
-                required={['name', 'phone', 'ministry', 'location'].includes(
-                  field
-                )}
-                value={
-                  typeof formData[field as keyof FormData] === 'string'
-                    ? (formData[field as keyof FormData] as string)
-                    : ''
-                }
+                required={['name', 'phone', 'ministry', 'location'].includes(field)}
+                value={formData[field as keyof FormData] as string}
                 onChange={handleChange}
                 disabled={loading}
                 className="w-full border border-gray-600 bg-black/30 text-white px-3 py-[8px] text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 placeholder:text-gray-400"
-                placeholder={
-                  field.charAt(0).toUpperCase() + field.slice(1)
-                }
+                placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
               />
             </div>
           )
         )}
 
-        {/* ✅ Days */}
+        {/* Days */}
         <div className="mb-4">
           <label className="block text-sm font-medium mb-1">
             Number of Days to Attend *
@@ -205,11 +183,10 @@ export default function RegisterPage() {
           </div>
         </div>
 
-        {/* ✅ Consent */}
+        {/* Consent */}
         <div className="mb-6">
           <label className="block text-sm font-medium mb-1 italic">
-            I understand that I can be contacted with the details provided for
-            future Gaanet programs *
+            I understand that I can be contacted with the details provided for future Gaanet programs *
           </label>
           <label className="inline-flex items-center text-sm">
             <input
@@ -225,7 +202,7 @@ export default function RegisterPage() {
           </label>
         </div>
 
-        {/* ✅ Submit */}
+        {/* Submit */}
         <div className="flex justify-center">
           <button
             type="submit"
@@ -239,7 +216,7 @@ export default function RegisterPage() {
         </div>
       </form>
 
-      {/* ✅ Success Message */}
+      {/* Success Message */}
       {showSuccess && (
         <div className="fixed inset-0 flex items-center justify-center z-50">
           <div className="bg-green-600 text-white px-6 py-4 rounded shadow-md animate-bounce text-sm">
